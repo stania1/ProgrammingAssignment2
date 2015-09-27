@@ -28,3 +28,31 @@ cacheSolve <- function(x, ...) {
   x$setinverse(i)
   i
 }
+
+
+# helper functions for benchmarking (not part of the assignment)
+# TODO make them DRY
+
+benchmarkCacheSolve <- function() {
+  system.time(manyCacheSolve())
+}
+
+manyCacheSolve <- function() {
+  a <- matrix(c(10,-9,-12,7,-12,11,-10,10,3), ncol=3, nrow=3)
+  cache_matrix <- makeCacheMatrix(a)
+  for (i in 1:100000) {
+    cacheSolve(cache_matrix)
+  }
+}
+
+benchmarkNoCacheSolve <- function() {
+  system.time(manyNoCacheSolve())
+}
+
+manyNoCacheSolve <- function() {
+  a <- matrix(c(10,-9,-12,7,-12,11,-10,10,3), ncol=3, nrow=3)
+  cache_matrix <- makeCacheMatrix(a)
+  for (i in 1:100000) {
+    solve(cache_matrix$get())
+  }
+}
